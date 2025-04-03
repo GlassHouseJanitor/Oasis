@@ -100,7 +100,9 @@ export default function Sidebar({ isMobileOpen, closeMobileSidebar }: SidebarPro
         )}
       >
         <div className="p-4 flex items-center justify-between md:justify-start">
-          <Logo isWhite className="h-12" />
+          <div className="bg-white rounded-lg p-1 overflow-hidden">
+            <Logo className="h-10 w-auto" />
+          </div>
           <button 
             className="md:hidden text-white"
             onClick={closeMobileSidebar}
