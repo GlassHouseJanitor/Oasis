@@ -15,20 +15,20 @@ interface StatsCardProps {
 
 const colorSchemes = {
   teal: {
-    iconBg: "bg-[#2A9D8F] bg-opacity-10",
-    iconColor: "text-[#2A9D8F]"
+    iconBg: "bg-[#544d27] bg-opacity-10",
+    iconColor: "text-[#544d27]"
   },
   peach: {
-    iconBg: "bg-[#F4A261] bg-opacity-10",
-    iconColor: "text-[#F4A261]"
+    iconBg: "bg-[#333232] bg-opacity-10",
+    iconColor: "text-[#333232]"
   },
   gold: {
-    iconBg: "bg-[#E9C46A] bg-opacity-10",
-    iconColor: "text-[#E9C46A]"
+    iconBg: "bg-[#333232] bg-opacity-10",
+    iconColor: "text-[#333232]"
   },
   red: {
-    iconBg: "bg-red-100",
-    iconColor: "text-red-500"
+    iconBg: "bg-[#333232] bg-opacity-10",
+    iconColor: "text-[#333232]"
   }
 };
 
@@ -53,7 +53,7 @@ export function StatsCard({
       <div className="flex items-center justify-between">
         <div>
           <p className="text-sm text-gray-500 font-montserrat">{title}</p>
-          <p className="text-2xl font-bold text-[#264653] font-montserrat mt-1">{value}</p>
+          <p className="text-2xl font-bold text-[#333232] font-montserrat mt-1">{value}</p>
         </div>
         <div className={cn("p-3 rounded-full", iconBg)}>
           <div className={iconColor}>
@@ -66,7 +66,7 @@ export function StatsCard({
         <div className="mt-2 flex items-center">
           <span className={cn(
             "text-sm flex items-center",
-            trend.isPositive ? "text-green-500" : "text-red-500"
+            trend.isPositive ? "text-[#544d27]" : "text-[#333232]"
           )}>
             {trend.isPositive ? (
               <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">

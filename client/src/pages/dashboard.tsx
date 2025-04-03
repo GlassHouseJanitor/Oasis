@@ -44,7 +44,7 @@ export default function Dashboard() {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-bold font-montserrat text-[#264653]">Dashboard</h1>
+      <h1 className="text-2xl font-bold font-montserrat text-[#333232]">Dashboard</h1>
       
       {/* Dashboard Stats */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -104,7 +104,7 @@ export default function Dashboard() {
       {/* Notifications & Reminders */}
       <Card>
         <CardContent className="p-6">
-          <h2 className="text-xl font-bold font-montserrat text-[#264653] mb-4">Notifications & Reminders</h2>
+          <h2 className="text-xl font-bold font-montserrat text-[#333232] mb-4">Notifications & Reminders</h2>
           
           <div className="space-y-4">
             <NotificationItem
