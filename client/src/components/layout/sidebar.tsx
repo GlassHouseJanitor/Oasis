@@ -122,8 +122,8 @@ export default function Sidebar({ isMobileOpen, closeMobileSidebar }: SidebarPro
                 key={item.path} 
                 href={item.path}
                 className={cn(
-                  "nav-item p-3 flex items-center text-gray-300 hover:bg-[#333232] hover:text-white transition-colors",
-                  isActive && "bg-[#333232] text-white"
+                  "nav-item p-3 flex items-center text-gray-300 hover:bg-[#544d27] hover:text-white transition-colors",
+                  isActive && "bg-[#544d27] text-white"
                 )}
               >
                 {item.icon}
@@ -138,7 +138,7 @@ export default function Sidebar({ isMobileOpen, closeMobileSidebar }: SidebarPro
             <div className="font-montserrat">Logged in as:</div>
             <div className="mt-1">Admin User</div>
           </div>
-          <button className="mt-3 w-full py-2 bg-[#333232] text-white rounded-md font-montserrat font-medium hover:bg-opacity-90 transition-colors">
+          <button className="mt-3 w-full py-2 bg-[#deaf61] text-white rounded-md font-montserrat font-medium hover:bg-opacity-90 transition-colors">
             Logout
           </button>
         </div>
