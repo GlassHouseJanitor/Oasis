@@ -299,13 +299,13 @@ export default function InventoryList({ onOrderSupplies }: InventoryListProps) {
                   <TableCell>
                     <div className="flex space-x-2">
                       <button 
-                        className="text-[#264653] hover:text-[#2A9D8F]"
+                        className="text-[#333232] hover:text-[#544d27]"
                         onClick={() => handleEditItem(item)}
                       >
                         <Edit className="h-4 w-4" />
                       </button>
                       <button 
-                        className="text-[#264653] hover:text-red-500"
+                        className="text-[#333232] hover:text-[#b70b08]"
                         onClick={() => handleDeleteItem(item.id)}
                       >
                         <Trash2 className="h-4 w-4" />
@@ -363,7 +363,7 @@ export default function InventoryList({ onOrderSupplies }: InventoryListProps) {
                   variant={currentPage === pageNum ? "default" : "outline"}
                   size="sm"
                   onClick={() => setCurrentPage(pageNum)}
-                  className={currentPage === pageNum ? "bg-[#2A9D8F]" : ""}
+                  className={currentPage === pageNum ? "bg-[#544d27]" : ""}
                 >
                   {pageNum}
                 </Button>
@@ -498,7 +498,7 @@ export default function InventoryList({ onOrderSupplies }: InventoryListProps) {
                 <Button type="button" variant="outline" onClick={() => setIsDialogOpen(false)}>
                   Cancel
                 </Button>
-                <Button type="submit" className="bg-[#2A9D8F] hover:bg-[#2A9D8F]/90 text-white">
+                <Button type="submit" className="bg-[#544d27] hover:bg-[#544d27]/90 text-white">
                   {editingItem ? "Update Item" : "Add Item"}
                 </Button>
               </DialogFooter>
