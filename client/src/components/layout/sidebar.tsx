@@ -93,7 +93,7 @@ export default function Sidebar({ isMobileOpen, closeMobileSidebar }: SidebarPro
       {/* Sidebar */}
       <aside 
         className={cn(
-          "bg-[#264653] w-full md:w-64 md:min-h-screen flex-shrink-0 flex flex-col",
+          "bg-[#333232] w-full md:w-64 md:min-h-screen flex-shrink-0 flex flex-col",
           "fixed inset-y-0 left-0 z-50 md:relative",
           "transform transition-transform duration-200 ease-in-out",
           isMobileOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"
@@ -122,8 +122,8 @@ export default function Sidebar({ isMobileOpen, closeMobileSidebar }: SidebarPro
                 key={item.path} 
                 href={item.path}
                 className={cn(
-                  "nav-item p-3 flex items-center text-gray-300 hover:bg-[#2A9D8F] hover:text-white transition-colors",
-                  isActive && "bg-[#2A9D8F] text-white"
+                  "nav-item p-3 flex items-center text-gray-300 hover:bg-[#333232] hover:text-white transition-colors",
+                  isActive && "bg-[#333232] text-white"
                 )}
               >
                 {item.icon}
@@ -138,7 +138,7 @@ export default function Sidebar({ isMobileOpen, closeMobileSidebar }: SidebarPro
             <div className="font-montserrat">Logged in as:</div>
             <div className="mt-1">Admin User</div>
           </div>
-          <button className="mt-3 w-full py-2 bg-[#F4A261] text-white rounded-md font-montserrat font-medium hover:bg-opacity-90 transition-colors">
+          <button className="mt-3 w-full py-2 bg-[#333232] text-white rounded-md font-montserrat font-medium hover:bg-opacity-90 transition-colors">
             Logout
           </button>
         </div>
