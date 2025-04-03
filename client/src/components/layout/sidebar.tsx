@@ -118,16 +118,16 @@ export default function Sidebar({ isMobileOpen, closeMobileSidebar }: SidebarPro
               (item.path !== "/" && location.startsWith(item.path));
             
             return (
-              <Link key={item.path} href={item.path}>
-                <a
-                  className={cn(
-                    "nav-item p-3 flex items-center text-gray-300 hover:bg-[#2A9D8F] hover:text-white transition-colors",
-                    isActive && "bg-[#2A9D8F] text-white"
-                  )}
-                >
-                  {item.icon}
-                  <span className="font-montserrat font-medium">{item.label}</span>
-                </a>
+              <Link 
+                key={item.path} 
+                href={item.path}
+                className={cn(
+                  "nav-item p-3 flex items-center text-gray-300 hover:bg-[#2A9D8F] hover:text-white transition-colors",
+                  isActive && "bg-[#2A9D8F] text-white"
+                )}
+              >
+                {item.icon}
+                <span className="font-montserrat font-medium">{item.label}</span>
               </Link>
             );
           })}
