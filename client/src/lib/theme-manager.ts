@@ -32,8 +32,8 @@ export const defaultTheme: Theme = {
   appearance: 'light',
   radius: 0.5,
   fonts: {
-    heading: 'Montserrat',
-    body: 'Arial'
+    heading: 'Monoton',
+    body: 'Averia Sans Libre'
   },
   colors: {
     secondary: '#a3b68a',
@@ -172,6 +172,8 @@ export function initializeTheme(): void {
 
 // Export font options for select dropdown
 export const fontOptions = [
+  'Monoton',
+  'Averia Sans Libre',
   'Montserrat',
   'Arial',
   'Verdana',
