@@ -11,7 +11,9 @@ import Residents from "@/pages/residents";
 import Inventory from "@/pages/inventory";
 import Finances from "@/pages/finances";
 import Communication from "@/pages/communication";
-import { useState } from "react";
+import ThemeSettings from "@/pages/theme-settings";
+import { useState, useEffect } from "react";
+import { initializeTheme } from "@/lib/theme-manager";
 
 function Router() {
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
@@ -38,6 +40,7 @@ function Router() {
             <Route path="/inventory" component={Inventory} />
             <Route path="/finances" component={Finances} />
             <Route path="/communication" component={Communication} />
+            <Route path="/theme-settings" component={ThemeSettings} />
             <Route component={NotFound} />
           </Switch>
         </main>
@@ -47,6 +50,11 @@ function Router() {
 }
 
 function App() {
+  // Initialize theme when application first loads
+  useEffect(() => {
+    initializeTheme();
+  }, []);
+
   return (
     <QueryClientProvider client={queryClient}>
       <Router />

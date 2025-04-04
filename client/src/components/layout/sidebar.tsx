@@ -2,7 +2,7 @@ import { Link, useLocation } from "wouter";
 import { cn } from "@/lib/utils";
 import Logo from "@/components/ui/logo";
 import { useEffect } from "react";
-import { X } from "lucide-react";
+import { X, Palette } from "lucide-react";
 
 interface SidebarProps {
   isMobileOpen: boolean;
@@ -76,6 +76,13 @@ export default function Sidebar({ isMobileOpen, closeMobileSidebar }: SidebarPro
         <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
         </svg>
+      )
+    },
+    {
+      path: "/theme-settings",
+      label: "Theme Settings",
+      icon: (
+        <Palette className="h-5 w-5 mr-3" />
       )
     },
   ];
