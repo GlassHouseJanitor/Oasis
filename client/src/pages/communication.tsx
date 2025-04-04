@@ -117,7 +117,7 @@ export default function Communication() {
                       <Search className="h-4 w-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
                     </div>
                     <Button 
-                      className="bg-[#2A9D8F] hover:bg-[#2A9D8F]/90 text-white"
+                      className="bg-[#a3b68a] hover:bg-[#a3b68a]/90 text-white"
                       onClick={handleNewMessage}
                     >
                       <Plus className="h-4 w-4 mr-2" />
@@ -170,7 +170,7 @@ export default function Communication() {
                                     House
                                   </div>
                                 ) : (
-                                  <div className="px-2 py-1 bg-green-100 text-green-800 rounded-full text-xs inline-block">
+                                  <div className="px-2 py-1 bg-[#a3b68a20] text-[#a3b68a] rounded-full text-xs inline-block">
                                     All Residents
                                   </div>
                                 )}
@@ -179,14 +179,14 @@ export default function Communication() {
                                 {format(new Date(message.sentAt), "MMM d, yyyy h:mma")}
                               </TableCell>
                               <TableCell>
-                                <div className="px-2 py-1 bg-green-100 text-green-800 rounded-full text-xs inline-block">
+                                <div className="px-2 py-1 bg-[#a3b68a20] text-[#a3b68a] rounded-full text-xs inline-block">
                                   Sent
                                 </div>
                               </TableCell>
                               <TableCell>
                                 <div className="flex space-x-2">
                                   <button 
-                                    className="text-[#264653] hover:text-[#2A9D8F]"
+                                    className="text-[#264653] hover:text-[#a3b68a]"
                                     onClick={() => {
                                       toast({
                                         title: "View Message",
@@ -197,7 +197,7 @@ export default function Communication() {
                                     View
                                   </button>
                                   <button 
-                                    className="text-[#264653] hover:text-[#2A9D8F]"
+                                    className="text-[#264653] hover:text-[#a3b68a]"
                                     onClick={() => {
                                       toast({
                                         title: "Message sent again",
@@ -251,7 +251,7 @@ export default function Communication() {
                             variant={currentPage === pageNum ? "default" : "outline"}
                             size="sm"
                             onClick={() => setCurrentPage(pageNum)}
-                            className={currentPage === pageNum ? "bg-[#2A9D8F]" : ""}
+                            className={currentPage === pageNum ? "bg-[#a3b68a] hover:bg-[#a3b68a]/90" : ""}
                           >
                             {pageNum}
                           </Button>
@@ -279,7 +279,7 @@ export default function Communication() {
             <CardContent className="p-6">
               <div className="flex justify-between items-center mb-4">
                 <h2 className="text-lg font-semibold font-montserrat text-[#264653]">Announcements</h2>
-                <Button className="bg-[#2A9D8F] hover:bg-[#2A9D8F]/90 text-white">
+                <Button className="bg-[#a3b68a] hover:bg-[#a3b68a]/90 text-white">
                   <Plus className="h-4 w-4 mr-2" />
                   Create Announcement
                 </Button>
@@ -293,7 +293,7 @@ export default function Communication() {
                 <p className="text-gray-500 max-w-md mx-auto mb-6">
                   Create announcements to notify all residents about important information or upcoming events.
                 </p>
-                <Button className="bg-[#2A9D8F] hover:bg-[#2A9D8F]/90 text-white">
+                <Button className="bg-[#a3b68a] hover:bg-[#a3b68a]/90 text-white">
                   <Plus className="h-4 w-4 mr-2" />
                   Create Your First Announcement
                 </Button>
@@ -307,7 +307,7 @@ export default function Communication() {
             <CardContent className="p-6">
               <div className="flex justify-between items-center mb-4">
                 <h2 className="text-lg font-semibold font-montserrat text-[#264653]">Message Templates</h2>
-                <Button className="bg-[#2A9D8F] hover:bg-[#2A9D8F]/90 text-white">
+                <Button className="bg-[#a3b68a] hover:bg-[#a3b68a]/90 text-white">
                   <Plus className="h-4 w-4 mr-2" />
                   Create Template
                 </Button>
@@ -321,7 +321,7 @@ export default function Communication() {
                 <p className="text-gray-500 max-w-md mx-auto mb-6">
                   Create message templates to quickly send common communications to residents.
                 </p>
-                <Button className="bg-[#2A9D8F] hover:bg-[#2A9D8F]/90 text-white">
+                <Button className="bg-[#a3b68a] hover:bg-[#a3b68a]/90 text-white">
                   <Plus className="h-4 w-4 mr-2" />
                   Create Your First Template
                 </Button>

@@ -15,8 +15,8 @@ interface StatsCardProps {
 
 const colorSchemes = {
   teal: {
-    iconBg: "bg-[#544d27] bg-opacity-10",
-    iconColor: "text-[#544d27]"
+    iconBg: "bg-[#a3b68a] bg-opacity-10",
+    iconColor: "text-[#a3b68a]"
   },
   peach: {
     iconBg: "bg-[#333232] bg-opacity-10",
@@ -66,7 +66,7 @@ export function StatsCard({
         <div className="mt-2 flex items-center">
           <span className={cn(
             "text-sm flex items-center",
-            trend.isPositive ? "text-[#544d27]" : "text-[#333232]"
+            trend.isPositive ? "text-[#a3b68a]" : "text-[#333232]"
           )}>
             {trend.isPositive ? (
               <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">

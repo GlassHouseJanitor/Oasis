@@ -124,7 +124,7 @@ export default function Finances() {
                     <Search className="h-4 w-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
                   </div>
                   <Button 
-                    className="bg-[#2A9D8F] hover:bg-[#2A9D8F]/90 text-white"
+                    className="bg-[#a3b68a] hover:bg-[#a3b68a]/90 text-white"
                     onClick={() => handleAddPayment()}
                   >
                     <Plus className="h-4 w-4 mr-2" />
@@ -192,7 +192,7 @@ export default function Finances() {
                             <TableCell>
                               <div className="flex space-x-2">
                                 <button 
-                                  className="text-[#264653] hover:text-[#2A9D8F]"
+                                  className="text-[#264653] hover:text-[#a3b68a]"
                                   onClick={() => {
                                     toast({
                                       title: "View details",
@@ -203,7 +203,7 @@ export default function Finances() {
                                   View
                                 </button>
                                 <button 
-                                  className="text-[#264653] hover:text-[#2A9D8F]"
+                                  className="text-[#264653] hover:text-[#a3b68a]"
                                   onClick={() => {
                                     toast({
                                       title: "Print receipt",
@@ -257,7 +257,7 @@ export default function Finances() {
                           variant={currentPage === pageNum ? "default" : "outline"}
                           size="sm"
                           onClick={() => setCurrentPage(pageNum)}
-                          className={currentPage === pageNum ? "bg-[#2A9D8F]" : ""}
+                          className={currentPage === pageNum ? "bg-[#a3b68a]" : ""}
                         >
                           {pageNum}
                         </Button>
@@ -289,7 +289,7 @@ export default function Finances() {
                     <Filter className="h-4 w-4 mr-2" />
                     Filter
                   </Button>
-                  <Button className="bg-[#2A9D8F] hover:bg-[#2A9D8F]/90 text-white">
+                  <Button className="bg-[#a3b68a] hover:bg-[#a3b68a]/90 text-white">
                     <Plus className="h-4 w-4 mr-2" />
                     New Invoice
                   </Button>
@@ -304,7 +304,7 @@ export default function Finances() {
                 <p className="text-gray-500 max-w-md mx-auto mb-6">
                   Create and send invoices to residents. You can track payment status and send reminders.
                 </p>
-                <Button className="bg-[#2A9D8F] hover:bg-[#2A9D8F]/90 text-white">
+                <Button className="bg-[#a3b68a] hover:bg-[#a3b68a]/90 text-white">
                   <Plus className="h-4 w-4 mr-2" />
                   Create Your First Invoice
                 </Button>

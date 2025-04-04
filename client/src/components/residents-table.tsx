@@ -49,9 +49,9 @@ export default function ResidentsTable({
   const paymentStatusBadge = (status: string) => {
     switch (status) {
       case 'paid':
-        return <Badge className="bg-green-100 text-green-800 hover:bg-green-100">Paid</Badge>;
+        return <Badge className="bg-[#a3b68a] text-[#354a2f] hover:bg-[#a3b68a]">Paid</Badge>;
       case 'partial':
-        return <Badge className="bg-yellow-100 text-yellow-800 hover:bg-yellow-100">Partial</Badge>;
+        return <Badge className="bg-[#deaf61 ] text-yellow-800 hover:bg-yellow-100">Partial</Badge>;
       case 'overdue':
         return <Badge className="bg-red-100 text-red-800 hover:bg-red-100">Overdue</Badge>;
       default:

@@ -52,7 +52,7 @@ export default function HouseVisualization({ onBedSelect }: HouseVisualizationPr
   }
   
   const statusColorClasses = {
-    available: "fill-[#2A9D8F] fill-opacity-30 hover:fill-opacity-50",
+    available: "fill-[#a3b68a] fill-opacity-30 hover:fill-opacity-50",
     occupied: "fill-[#F4A261] fill-opacity-60 hover:fill-opacity-80",
     maintenance: "fill-[#E9C46A] fill-opacity-50 hover:fill-opacity-70"
   };
@@ -138,7 +138,7 @@ export default function HouseVisualization({ onBedSelect }: HouseVisualizationPr
                     
                     {/* Render Beds */}
                     {Object.values(bedsByRoom).map((roomData, roomIndex) => {
-                      const bedPositionsMap = {
+                      const bedPositionsMap: Record<number, Array<{x: number, y: number}>> = {
                         0: [ // Room 1 beds
                           { x: 70, y: 80 },
                           { x: 130, y: 80 }
@@ -167,7 +167,7 @@ export default function HouseVisualization({ onBedSelect }: HouseVisualizationPr
                         ]
                       };
                       
-                      const roomPositions = bedPositionsMap[roomIndex % 6] || [];
+                      const roomPositions = bedPositionsMap[roomIndex % 6 as keyof typeof bedPositionsMap] || [];
                       
                       return roomData.beds.map((bed, bedIndex) => {
                         const position = roomPositions[bedIndex % roomPositions.length] || { x: 0, y: 0 };
@@ -207,7 +207,7 @@ export default function HouseVisualization({ onBedSelect }: HouseVisualizationPr
               {/* Legend */}
               <div className="flex flex-wrap gap-4 mt-3 justify-center">
                 <div className="flex items-center">
-                  <div className="w-4 h-4 bg-[#2A9D8F] bg-opacity-30 border border-gray-300 rounded mr-2"></div>
+                  <div className="w-4 h-4 bg-[#a3b68a] bg-opacity-30 border border-gray-300 rounded mr-2"></div>
                   <span className="text-sm text-gray-600">Available</span>
                 </div>
                 <div className="flex items-center">

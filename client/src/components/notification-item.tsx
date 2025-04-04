@@ -22,7 +22,7 @@ interface NotificationItemProps {
 const typeStyles: Record<NotificationType, { borderColor: string, bgColor: string }> = {
   error: { borderColor: 'border-[#333232]', bgColor: 'bg-[#33323210]' },
   warning: { borderColor: 'border-[#333232]', bgColor: 'bg-[#33323210]' },
-  success: { borderColor: 'border-[#544d27]', bgColor: 'bg-[#544d2710]' },
+  success: { borderColor: 'border-[#a3b68a]', bgColor: 'bg-[#a3b68a10]' },
   info: { borderColor: 'border-[#333232]', bgColor: 'bg-[#33323210]' }
 };
 
@@ -47,7 +47,7 @@ export function NotificationItem({
         <div className="mt-2 flex space-x-2">
           {actions.primary && (
             <button 
-              className="text-sm text-[#544d27] font-medium hover:underline"
+              className="text-sm text-[#a3b68a] font-medium hover:underline"
               onClick={actions.primary.onClick}
             >
               {actions.primary.label}
