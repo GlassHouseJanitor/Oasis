@@ -19,12 +19,12 @@ export default function Header({ toggleSidebar }: HeaderProps) {
       </div>
       
       <div className="flex items-center space-x-4">
-        <button className="text-gray-500 hover:text-[#2A9D8F]">
+        <button className="text-gray-500 hover:text-[#a3b68a]">
           <Bell className="h-6 w-6" />
         </button>
         
         <div className="relative">
-          <div className="w-8 h-8 rounded-full bg-[#2A9D8F] text-white flex items-center justify-center">
+          <div className="w-8 h-8 rounded-full bg-[#a3b68a] text-white flex items-center justify-center">
             <span className="font-medium text-sm">AU</span>
           </div>
         </div>

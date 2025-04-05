@@ -338,7 +338,7 @@ export default function BedAssignment({ selectedBed }: BedAssignmentProps) {
               )}
             />
             
-            <Button type="submit" className="w-full bg-[#2A9D8F] text-white">
+            <Button type="submit" className="w-full bg-[#a3b68a] text-white">
               {selectedBed.status === "occupied" && currentResident
                 ? "Update Assignment"
                 : "Assign to Selected Bed"}

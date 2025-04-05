@@ -41,7 +41,7 @@ export const defaultTheme: Theme = {
     success: '#a3b68a',
     warning: '#E9C46A',
     error: '#E76F51',
-    info: '#2A9D8F',
+    info: '#a3b68a',
     background: '#FFFFFF',
     foreground: '#333232',
     card: '#FFFFFF',

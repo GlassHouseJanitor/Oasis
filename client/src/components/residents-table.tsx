@@ -49,11 +49,11 @@ export default function ResidentsTable({
   const paymentStatusBadge = (status: string) => {
     switch (status) {
       case 'paid':
-        return <Badge className="bg-[#a3b68a] text-[#354a2f] hover:bg-[#a3b68a]">Paid</Badge>;
+        return <Badge className="bg-[#a3b68a] text-[#616d52] hover:bg-[#616d52]">Paid</Badge>;
       case 'partial':
-        return <Badge className="bg-[#deaf61 ] text-yellow-800 hover:bg-yellow-100">Partial</Badge>;
+        return <Badge className="bg-[#ffd966] text-yellow-800 hover:bg-yellow-100">Partial</Badge>;
       case 'overdue':
-        return <Badge className="bg-red-100 text-red-800 hover:bg-red-100">Overdue</Badge>;
+        return <Badge className="bg-red-100 text-red-800 hover:bg-red-800">Overdue</Badge>;
       default:
         return <Badge className="bg-gray-100 text-gray-800 hover:bg-gray-100">Unpaid</Badge>;
     }
@@ -75,7 +75,7 @@ export default function ResidentsTable({
             <Search className="h-4 w-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
           </div>
           <Button 
-            className="bg-[#2A9D8F] hover:bg-[#2A9D8F]/90 text-white"
+            className="bg-[#a3b68a] hover:bg-[#2A9D8F]/90 text-white"
             onClick={onAddResident}
           >
             <UserPlus className="h-4 w-4 mr-2" />
@@ -114,7 +114,7 @@ export default function ResidentsTable({
                   <TableRow key={resident.id} className="hover:bg-gray-50">
                     <TableCell>
                       <div className="flex items-center">
-                        <div className="h-10 w-10 flex-shrink-0 rounded-full bg-[#2A9D8F]/10 flex items-center justify-center text-[#2A9D8F]">
+                        <div className="h-10 w-10 flex-shrink-0 rounded-full bg-[#a3b68a]/10 flex items-center justify-center text-[#a3b68a]">
                           <User className="h-5 w-5" />
                         </div>
                         <div className="ml-4">
@@ -152,13 +152,13 @@ export default function ResidentsTable({
                     <TableCell>
                       <div className="flex space-x-2">
                         <button 
-                          className="text-[#264653] hover:text-[#2A9D8F]"
+                          className="text-[#264653] hover:text-[#a3b68a]"
                           onClick={() => onViewResident?.(resident)}
                         >
                           View
                         </button>
                         <button 
-                          className="text-[#264653] hover:text-[#2A9D8F]"
+                          className="text-[#264653] hover:text-[#a3b68a]"
                           onClick={() => onEditResident?.(resident)}
                         >
                           Edit
@@ -206,7 +206,7 @@ export default function ResidentsTable({
                     variant={currentPage === pageNum ? "default" : "outline"}
                     size="sm"
                     onClick={() => setCurrentPage(pageNum)}
-                    className={currentPage === pageNum ? "bg-[#2A9D8F]" : ""}
+                    className={currentPage === pageNum ? "bg-[#a3b68a]" : ""}
                   >
                     {pageNum}
                   </Button>
