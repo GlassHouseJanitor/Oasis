@@ -1,6 +1,6 @@
 import { useParams, Link } from 'wouter';
 import { useQuery, useMutation } from '@tanstack/react-query';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { queryClient, apiRequest } from '../lib/queryClient';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -31,11 +31,16 @@ export default function ResidentProfile() {
     enabled: !!residentId,
   });
 
-  const { data: bedWithRoom } = useQuery({
+  const { data: residentsWithBeds } = useQuery({
     queryKey: ['/api/residents/with-beds'],
-    select: (data) => data.find((r) => r.id === residentId),
     enabled: !!residentId,
   });
+
+  // Extract the bed and room details for this resident
+  const bedWithRoom = useMemo(() => {
+    if (!residentsWithBeds || !residentId) return null;
+    return residentsWithBeds.find((r) => r.id === Number(residentId));
+  }, [residentsWithBeds, residentId]);
 
   const [formData, setFormData] = useState<any>({});
 
@@ -374,21 +379,21 @@ export default function ResidentProfile() {
                   <CardTitle>Housing Information</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  {bedWithRoom ? (
+                  {bedWithRoom && bedWithRoom.bed ? (
                     <div className="space-y-4">
                       <div className="grid grid-cols-2 gap-4">
                         <div>
                           <p className="text-sm text-muted-foreground">Current Room</p>
-                          <p className="font-medium">{bedWithRoom.bed?.room?.name || 'Not assigned'}</p>
+                          <p className="font-medium">{bedWithRoom.bed.room?.name || 'Not assigned'}</p>
                         </div>
                         <div>
                           <p className="text-sm text-muted-foreground">Bed</p>
-                          <p className="font-medium">{bedWithRoom.bed?.name || 'Not assigned'}</p>
+                          <p className="font-medium">{bedWithRoom.bed.name || 'Not assigned'}</p>
                         </div>
                       </div>
                       <div>
                         <p className="text-sm text-muted-foreground">House</p>
-                        <p className="font-medium">{bedWithRoom.bed?.room?.house?.name || 'Not assigned'}</p>
+                        <p className="font-medium">{bedWithRoom.bed.room?.house?.name || 'Unknown House'}</p>
                       </div>
                     </div>
                   ) : (
