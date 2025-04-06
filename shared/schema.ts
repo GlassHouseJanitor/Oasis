@@ -45,6 +45,7 @@ export const residents = pgTable('residents', {
   moveInDate: timestamp('move_in_date'),
   expectedDuration: text('expected_duration'),
   notes: text('notes'),
+  photoUrl: text('photo_url'),
   bedId: integer('bed_id').references(() => beds.id),
 });
 

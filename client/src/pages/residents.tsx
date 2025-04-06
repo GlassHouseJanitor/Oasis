@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import ResidentsTable from "@/components/residents-table";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { UserPlus } from "lucide-react";
+import { UserPlus, Upload, X, Image } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { ResidentWithBed } from "@shared/schema";
 import {
@@ -20,6 +20,7 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
+  FormDescription,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -36,6 +37,7 @@ const residentFormSchema = z.object({
   phone: z.string().optional(),
   emergencyContact: z.string().optional(),
   notes: z.string().optional(),
+  photoUrl: z.string().optional(),
 });
 
 type ResidentFormValues = z.infer<typeof residentFormSchema>;
@@ -44,6 +46,8 @@ export default function Residents() {
   const [isAddResidentOpen, setIsAddResidentOpen] = useState(false);
   const [isViewResidentOpen, setIsViewResidentOpen] = useState(false);
   const [selectedResident, setSelectedResident] = useState<ResidentWithBed | null>(null);
+  const [photoPreview, setPhotoPreview] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
   
   const form = useForm<ResidentFormValues>({
@@ -55,6 +59,7 @@ export default function Residents() {
       phone: "",
       emergencyContact: "",
       notes: "",
+      photoUrl: "",
     },
   });
   
@@ -70,6 +75,7 @@ export default function Residents() {
   
   const handleEditResident = (resident: ResidentWithBed) => {
     setSelectedResident(resident);
+    setPhotoPreview(resident.photoUrl || null);
     form.reset({
       firstName: resident.firstName,
       lastName: resident.lastName,
@@ -77,8 +83,33 @@ export default function Residents() {
       phone: resident.phone || "",
       emergencyContact: resident.emergencyContact || "",
       notes: resident.notes || "",
+      photoUrl: resident.photoUrl || "",
     });
     setIsAddResidentOpen(true);
+  };
+  
+  const handlePhotoUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+    
+    // Check file size (max 5MB)
+    if (file.size > 5 * 1024 * 1024) {
+      toast({
+        title: "Error",
+        description: "Photo size must be less than 5MB",
+        variant: "destructive"
+      });
+      return;
+    }
+    
+    // Convert to base64 for preview and storage
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      const base64String = reader.result as string;
+      setPhotoPreview(base64String);
+      form.setValue("photoUrl", base64String);
+    };
+    reader.readAsDataURL(file);
   };
   
   const onSubmit = async (values: ResidentFormValues) => {
@@ -244,6 +275,56 @@ export default function Residents() {
                 )}
               />
               
+              <FormField
+                control={form.control}
+                name="photoUrl"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Photo</FormLabel>
+                    <div className="flex flex-col space-y-3">
+                      {photoPreview ? (
+                        <div className="relative w-32 h-32">
+                          <img 
+                            src={photoPreview} 
+                            alt="Resident photo preview" 
+                            className="w-32 h-32 object-cover rounded-md border border-gray-200"
+                          />
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setPhotoPreview(null);
+                              field.onChange("");
+                            }}
+                            className="absolute -top-2 -right-2 bg-white rounded-full p-1 border border-gray-200 shadow-sm"
+                          >
+                            <X className="h-4 w-4 text-gray-500" />
+                          </button>
+                        </div>
+                      ) : (
+                        <div 
+                          className="w-32 h-32 border-2 border-dashed border-gray-300 rounded-md flex flex-col items-center justify-center cursor-pointer hover:border-[#a3b68a]"
+                          onClick={() => fileInputRef.current?.click()}
+                        >
+                          <Image className="h-8 w-8 text-gray-400 mb-2" />
+                          <p className="text-xs text-gray-500">Upload photo</p>
+                        </div>
+                      )}
+                      <input 
+                        type="file" 
+                        ref={fileInputRef}
+                        accept="image/*"
+                        className="hidden"
+                        onChange={handlePhotoUpload}
+                      />
+                      <FormDescription className="text-xs text-gray-500">
+                        Upload a photo of the resident (max 5MB)
+                      </FormDescription>
+                    </div>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              
               <DialogFooter>
                 <Button type="button" variant="outline" onClick={() => setIsAddResidentOpen(false)}>
                   Cancel
@@ -267,11 +348,19 @@ export default function Residents() {
           {selectedResident && (
             <div className="space-y-4 py-4">
               <div className="flex items-center space-x-4">
-                <div className="h-16 w-16 rounded-full bg-[#a3b68a]/10 flex items-center justify-center text-[#a3b68a]">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                  </svg>
-                </div>
+                {selectedResident.photoUrl ? (
+                  <img 
+                    src={selectedResident.photoUrl} 
+                    alt={`${selectedResident.firstName} ${selectedResident.lastName}`}
+                    className="h-16 w-16 rounded-full object-cover border border-gray-200"
+                  />
+                ) : (
+                  <div className="h-16 w-16 rounded-full bg-[#a3b68a]/10 flex items-center justify-center text-[#a3b68a]">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                    </svg>
+                  </div>
+                )}
                 <div>
                   <h3 className="text-xl font-bold font-montserrat">{selectedResident.firstName} {selectedResident.lastName}</h3>
                   <p className="text-gray-500">ID: R-{selectedResident.id}</p>
