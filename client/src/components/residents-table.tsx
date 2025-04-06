@@ -115,12 +115,23 @@ export default function ResidentsTable({
                     <TableCell>
                       <div className="flex items-center">
                         <div className="h-10 w-10 flex-shrink-0 rounded-full bg-[#a3b68a]/10 flex items-center justify-center text-[#a3b68a]">
-                          <User className="h-5 w-5" />
+                          {resident.photoUrl ? (
+                            <img 
+                              src={resident.photoUrl} 
+                              alt={`${resident.firstName} ${resident.lastName}`}
+                              className="h-10 w-10 rounded-full object-cover"
+                            />
+                          ) : (
+                            <User className="h-5 w-5" />
+                          )}
                         </div>
                         <div className="ml-4">
-                          <div className="text-sm font-medium text-gray-900">
+                          <a 
+                            href={`/residents/${resident.id}`} 
+                            className="text-sm font-medium text-gray-900 hover:text-[#a3b68a] cursor-pointer"
+                          >
                             {resident.firstName} {resident.lastName}
-                          </div>
+                          </a>
                           <div className="text-sm text-gray-500">ID: R-{resident.id}</div>
                         </div>
                       </div>
