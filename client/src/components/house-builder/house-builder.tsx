@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -14,15 +14,177 @@ import {
   DialogDescription
 } from "@/components/ui/dialog";
 import { useToast } from "@/hooks/use-toast";
-import { Plus, Save, Home, ArrowUp, ArrowDown, Trash2, Edit, Eye } from "lucide-react";
+import { Plus, Save, Home, ArrowUp, ArrowDown, Trash2, Edit, Eye, GripVertical } from "lucide-react";
+import { DndProvider, useDrag, useDrop } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 import FloorBuilder, { Floor } from './floor-builder';
-import House3DRenderer from './house-3d-renderer';
+import House3DRenderer from './house-3d-renderer.tsx';
 
 export interface House {
   id: string;
   name: string;
   address?: string;
   floors: Floor[];
+}
+
+// Define item types for drag and drop
+const ItemTypes = {
+  FLOOR: 'floor',
+};
+
+// Interface for drag item
+interface DragItem {
+  index: number;
+  id: string;
+  type: string;
+}
+
+// Draggable Floor Card Component
+function DraggableFloorCard({ 
+  floor, 
+  index, 
+  moveFloor, 
+  onMoveUp, 
+  onMoveDown, 
+  onEdit, 
+  onDelete, 
+  totalFloors 
+}: { 
+  floor: Floor; 
+  index: number; 
+  moveFloor: (dragIndex: number, hoverIndex: number) => void; 
+  onMoveUp: () => void; 
+  onMoveDown: () => void; 
+  onEdit: () => void; 
+  onDelete: () => void; 
+  totalFloors: number; 
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+  
+  const [{ handlerId }, drop] = useDrop<DragItem, void, { handlerId: string | symbol | null }>({
+    accept: ItemTypes.FLOOR,
+    collect(monitor) {
+      return {
+        handlerId: monitor.getHandlerId(),
+      }
+    },
+    hover(item: DragItem, monitor) {
+      if (!ref.current) {
+        return;
+      }
+      const dragIndex = item.index;
+      const hoverIndex = index;
+      
+      // Don't replace items with themselves
+      if (dragIndex === hoverIndex) {
+        return;
+      }
+      
+      // Determine rectangle on screen
+      const hoverBoundingRect = ref.current?.getBoundingClientRect();
+      
+      // Get vertical middle
+      const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
+      
+      // Determine mouse position
+      const clientOffset = monitor.getClientOffset();
+      
+      // Get pixels to the top
+      const hoverClientY = clientOffset ? clientOffset.y - hoverBoundingRect.top : 0;
+      
+      // Only perform the move when the mouse has crossed half of the items height
+      // When dragging downwards, only move when the cursor is below 50%
+      // When dragging upwards, only move when the cursor is above 50%
+      
+      // Dragging downwards
+      if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
+        return;
+      }
+      
+      // Dragging upwards
+      if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
+        return;
+      }
+      
+      // Time to actually perform the action
+      moveFloor(dragIndex, hoverIndex);
+      
+      // Note: we're mutating the monitor item here!
+      // Generally it's better to avoid mutations,
+      // but it's good here for the sake of performance
+      // to avoid expensive index searches.
+      item.index = hoverIndex;
+    },
+  });
+  
+  const [{ isDragging }, drag] = useDrag({
+    type: ItemTypes.FLOOR,
+    item: () => {
+      return { id: floor.id, index };
+    },
+    collect: (monitor) => ({
+      isDragging: monitor.isDragging(),
+    }),
+  });
+  
+  const opacity = isDragging ? 0.4 : 1;
+  drag(drop(ref));
+  
+  return (
+    <Card 
+      ref={ref} 
+      className="overflow-hidden cursor-move" 
+      style={{ opacity }}
+      data-handler-id={handlerId}
+    >
+      <CardContent className="p-4">
+        <div className="flex justify-between items-center">
+          <div className="flex items-center">
+            <GripVertical className="h-4 w-4 mr-3 text-gray-400" />
+            <div>
+              <h4 className="font-semibold">{floor.name}</h4>
+              <p className="text-sm text-gray-500">
+                {floor.rooms.length} rooms, {floor.rooms.reduce((acc, room) => acc + room.beds.length, 0)} beds
+              </p>
+            </div>
+          </div>
+          <div className="flex space-x-2">
+            <Button 
+              variant="ghost" 
+              size="sm"
+              onClick={onMoveUp}
+              disabled={index === 0}
+            >
+              <ArrowUp className="h-4 w-4" />
+            </Button>
+            <Button 
+              variant="ghost" 
+              size="sm"
+              onClick={onMoveDown}
+              disabled={index === totalFloors - 1}
+            >
+              <ArrowDown className="h-4 w-4" />
+            </Button>
+            <Button 
+              variant="ghost" 
+              size="sm"
+              onClick={onEdit}
+            >
+              <Edit className="h-4 w-4" />
+            </Button>
+            <Button 
+              variant="ghost" 
+              size="sm"
+              onClick={onDelete}
+              className="text-red-500 hover:text-red-700"
+            >
+              <Trash2 className="h-4 w-4" />
+            </Button>
+          </div>
+        </div>
+      </CardContent>
+    </Card>
+  );
 }
 
 export default function HouseBuilder() {
@@ -230,6 +392,33 @@ export default function HouseBuilder() {
     });
   };
   
+  // Reorder floors via drag and drop
+  const moveFloorPosition = (dragIndex: number, hoverIndex: number) => {
+    if (!currentHouse) return;
+    
+    setHouses(prevHouses => {
+      return prevHouses.map(house => {
+        if (house.id === currentHouse.id) {
+          const updatedFloors = [...house.floors];
+          const draggedFloor = updatedFloors[dragIndex];
+          
+          // Remove the dragged floor
+          updatedFloors.splice(dragIndex, 1);
+          
+          // Insert it at the new position
+          updatedFloors.splice(hoverIndex, 0, draggedFloor);
+          
+          // Update current house
+          const updatedHouse = { ...house, floors: updatedFloors };
+          setCurrentHouse(updatedHouse);
+          
+          return updatedHouse;
+        }
+        return house;
+      });
+    });
+  };
+  
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
@@ -303,55 +492,23 @@ export default function HouseBuilder() {
                     ) : currentHouse.floors.length > 0 ? (
                       <div className="space-y-4">
                         <h3 className="text-lg font-semibold">Floors</h3>
-                        <div className="grid grid-cols-1 gap-4">
-                          {currentHouse.floors.map((floor, index) => (
-                            <Card key={floor.id} className="overflow-hidden">
-                              <CardContent className="p-4">
-                                <div className="flex justify-between items-center">
-                                  <div>
-                                    <h4 className="font-semibold">{floor.name}</h4>
-                                    <p className="text-sm text-gray-500">
-                                      {floor.rooms.length} rooms, {floor.rooms.reduce((acc, room) => acc + room.beds.length, 0)} beds
-                                    </p>
-                                  </div>
-                                  <div className="flex space-x-2">
-                                    <Button 
-                                      variant="ghost" 
-                                      size="sm"
-                                      onClick={() => moveFloorUp(currentHouse.id, floor.id)}
-                                      disabled={index === 0}
-                                    >
-                                      <ArrowUp className="h-4 w-4" />
-                                    </Button>
-                                    <Button 
-                                      variant="ghost" 
-                                      size="sm"
-                                      onClick={() => moveFloorDown(currentHouse.id, floor.id)}
-                                      disabled={index === currentHouse.floors.length - 1}
-                                    >
-                                      <ArrowDown className="h-4 w-4" />
-                                    </Button>
-                                    <Button 
-                                      variant="ghost" 
-                                      size="sm"
-                                      onClick={() => setEditingFloor(floor)}
-                                    >
-                                      <Edit className="h-4 w-4" />
-                                    </Button>
-                                    <Button 
-                                      variant="ghost" 
-                                      size="sm"
-                                      onClick={() => deleteFloor(currentHouse.id, floor.id)}
-                                      className="text-red-500 hover:text-red-700"
-                                    >
-                                      <Trash2 className="h-4 w-4" />
-                                    </Button>
-                                  </div>
-                                </div>
-                              </CardContent>
-                            </Card>
-                          ))}
-                        </div>
+                        <DndProvider backend={HTML5Backend}>
+                          <div className="grid grid-cols-1 gap-4">
+                            {currentHouse.floors.map((floor, index) => (
+                              <DraggableFloorCard
+                                key={floor.id}
+                                floor={floor}
+                                index={index}
+                                moveFloor={moveFloorPosition}
+                                onMoveUp={() => moveFloorUp(currentHouse.id, floor.id)}
+                                onMoveDown={() => moveFloorDown(currentHouse.id, floor.id)}
+                                onEdit={() => setEditingFloor(floor)}
+                                onDelete={() => deleteFloor(currentHouse.id, floor.id)}
+                                totalFloors={currentHouse.floors.length}
+                              />
+                            ))}
+                          </div>
+                        </DndProvider>
                       </div>
                     ) : (
                       <div className="text-center p-8 bg-gray-50 rounded-lg border border-dashed border-gray-300">
