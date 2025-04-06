@@ -13,6 +13,7 @@ import Inventory from "@/pages/inventory";
 import Finances from "@/pages/finances";
 import Communication from "@/pages/communication";
 import ThemeSettings from "@/pages/theme-settings";
+import HouseBuilderPage from "@/pages/house-builder";
 import { useState, useEffect } from "react";
 import { initializeTheme } from "@/lib/theme-manager";
 
@@ -37,6 +38,7 @@ function Router() {
           <Switch>
             <Route path="/" component={Dashboard} />
             <Route path="/housing" component={Housing} />
+            <Route path="/house-builder" component={HouseBuilderPage} />
             <Route path="/residents" component={Residents} />
             <Route path="/residents/:id" component={ResidentProfile} />
             <Route path="/inventory" component={Inventory} />
