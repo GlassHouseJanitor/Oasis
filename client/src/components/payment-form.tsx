@@ -226,7 +226,7 @@ export default function PaymentForm({
           </Button>
           <Button 
             type="submit"
-            className="bg-[#2A9D8F] hover:bg-[#2A9D8F]/90 text-white"
+            className="bg-[#a3b68a] hover:bg-[#a3b68a]/90 text-white"
           >
             Record Payment
           </Button>

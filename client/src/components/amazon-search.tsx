@@ -116,7 +116,7 @@ export default function AmazonSearch({ lowStockItems }: AmazonSearchProps) {
           currentQuantity: 10,
           minimumQuantity: 5,
           amazonUrl: product.url,
-          houseId: houses?.[0]?.id || 1,
+          houseId: houses && houses.length > 0 ? houses[0].id : 1,
         });
         
         // Invalidate inventory queries to refresh data
@@ -163,7 +163,7 @@ export default function AmazonSearch({ lowStockItems }: AmazonSearchProps) {
             <Search className="h-4 w-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
           </div>
           <Button 
-            className="bg-[#2A9D8F] hover:bg-[#2A9D8F]/90 text-white"
+            className="bg-[#a3b68a] hover:bg-[#a3b68a]/90 text-white"
             onClick={handleSearch}
             disabled={isSearching}
           >
@@ -236,7 +236,7 @@ export default function AmazonSearch({ lowStockItems }: AmazonSearchProps) {
                     </div>
                     <div>
                       <div className="font-medium">{product.name}</div>
-                      <div className="text-[#2A9D8F] font-semibold">{product.price}</div>
+                      <div className="text-[#a3b68a] font-semibold">{product.price}</div>
                     </div>
                   </div>
                   <div className="flex space-x-2">
@@ -253,7 +253,7 @@ export default function AmazonSearch({ lowStockItems }: AmazonSearchProps) {
                       size="sm"
                       className={orderedItems.has(product.id) 
                         ? "bg-green-600 hover:bg-green-700" 
-                        : "bg-[#2A9D8F] hover:bg-[#2A9D8F]/90"
+                        : "bg-[#a3b68a] hover:bg-[#a3b68a]/90"
                       }
                       onClick={() => handleOrderItem(product)}
                       disabled={orderedItems.has(product.id)}

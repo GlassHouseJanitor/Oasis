@@ -93,7 +93,7 @@ export default function InventoryList({ onOrderSupplies }: InventoryListProps) {
       minimumQuantity: 5,
       amazonUrl: "",
       notes: "",
-      houseId: houses?.[0]?.id || 1,
+      houseId: houses && houses.length > 0 ? houses[0].id : 1,
     },
   });
   
@@ -124,7 +124,7 @@ export default function InventoryList({ onOrderSupplies }: InventoryListProps) {
       minimumQuantity: 5,
       amazonUrl: "",
       notes: "",
-      houseId: houses?.[0]?.id || 1,
+      houseId: houses && houses.length > 0 ? houses[0].id : 1,
     });
     setIsDialogOpen(true);
   };
@@ -219,7 +219,7 @@ export default function InventoryList({ onOrderSupplies }: InventoryListProps) {
             <Search className="h-4 w-4 absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
           </div>
           <Button 
-            className="bg-[#2A9D8F] hover:bg-[#2A9D8F]/90 text-white"
+            className="bg-[#a3b68a] hover:bg-[#a3b68a]/90 text-white"
             onClick={handleAddItem}
           >
             <PlusCircle className="h-4 w-4 mr-2" />
@@ -242,7 +242,7 @@ export default function InventoryList({ onOrderSupplies }: InventoryListProps) {
             </div>
             <Button
               variant="outline"
-              className="text-[#2A9D8F] border-[#2A9D8F]"
+              className="text-[#a3b68a] border-[#a3b68a]"
               onClick={onOrderSupplies}
             >
               Order Supplies
@@ -299,7 +299,7 @@ export default function InventoryList({ onOrderSupplies }: InventoryListProps) {
                   <TableCell>
                     <div className="flex space-x-2">
                       <button 
-                        className="text-[#264653] hover:text-[#2A9D8F]"
+                        className="text-[#264653] hover:text-[#a3b68a]"
                         onClick={() => handleEditItem(item)}
                       >
                         <Edit className="h-4 w-4" />
@@ -363,7 +363,7 @@ export default function InventoryList({ onOrderSupplies }: InventoryListProps) {
                   variant={currentPage === pageNum ? "default" : "outline"}
                   size="sm"
                   onClick={() => setCurrentPage(pageNum)}
-                  className={currentPage === pageNum ? "bg-[#2A9D8F]" : ""}
+                  className={currentPage === pageNum ? "bg-[#a3b68a]" : ""}
                 >
                   {pageNum}
                 </Button>
@@ -498,7 +498,7 @@ export default function InventoryList({ onOrderSupplies }: InventoryListProps) {
                 <Button type="button" variant="outline" onClick={() => setIsDialogOpen(false)}>
                   Cancel
                 </Button>
-                <Button type="submit" className="bg-[#2A9D8F] hover:bg-[#2A9D8F]/90 text-white">
+                <Button type="submit" className="bg-[#a3b68a] hover:bg-[#a3b68a]/90 text-white">
                   {editingItem ? "Update Item" : "Add Item"}
                 </Button>
               </DialogFooter>

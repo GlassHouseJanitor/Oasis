@@ -8,10 +8,12 @@ import Header from "@/components/layout/header";
 import Dashboard from "@/pages/dashboard";
 import Housing from "@/pages/housing";
 import Residents from "@/pages/residents";
+import ResidentProfile from "@/pages/resident-profile";
 import Inventory from "@/pages/inventory";
 import Finances from "@/pages/finances";
 import Communication from "@/pages/communication";
 import ThemeSettings from "@/pages/theme-settings";
+import HouseBuilderPage from "@/pages/house-builder";
 import { useState, useEffect } from "react";
 import { initializeTheme } from "@/lib/theme-manager";
 
@@ -36,7 +38,9 @@ function Router() {
           <Switch>
             <Route path="/" component={Dashboard} />
             <Route path="/housing" component={Housing} />
+            <Route path="/house-builder" component={HouseBuilderPage} />
             <Route path="/residents" component={Residents} />
+            <Route path="/residents/:id" component={ResidentProfile} />
             <Route path="/inventory" component={Inventory} />
             <Route path="/finances" component={Finances} />
             <Route path="/communication" component={Communication} />

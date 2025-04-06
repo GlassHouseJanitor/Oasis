@@ -120,10 +120,10 @@ export class MemStorage implements IStorage {
   
   private initSampleData() {
     // Create Houses
-    const house1 = this.createHouse({ name: 'Serenity House', address: '123 Main St', description: 'Main recovery house' });
-    const house2 = this.createHouse({ name: 'Recovery Haven', address: '456 Oak Ave', description: 'Secondary recovery house' });
+    const house1 = this.createHouse({ name: 'White House', address: '123 Main St', description: 'Main recovery house' });
+    const house2 = this.createHouse({ name: 'Hill St', address: '456 Oak Ave', description: 'Secondary recovery house' });
     
-    // Create Rooms for Serenity House
+    // Create Rooms for White House
     const room1 = this.createRoom({ houseId: house1.id, name: 'Room 1', floor: 1 });
     const room2 = this.createRoom({ houseId: house1.id, name: 'Room 2', floor: 1 });
     const room3 = this.createRoom({ houseId: house1.id, name: 'Room 3', floor: 1 });
@@ -595,4 +595,7 @@ export class MemStorage implements IStorage {
   }
 }
 
-export const storage = new MemStorage();
+import { DatabaseStorage } from './database-storage';
+
+// Using database storage for persistence
+export const storage = new DatabaseStorage();

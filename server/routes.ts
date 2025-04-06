@@ -14,9 +14,13 @@ import {
 import { z } from "zod";
 import { ZodError } from "zod";
 import { fromZodError } from "zod-validation-error";
+import { registerFileRoutes } from "./routes/files";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   const httpServer = createServer(app);
+  
+  // Register file routes
+  registerFileRoutes(app);
 
   // Error handling middleware for Zod validation
   const validateBody = (schema: z.ZodType<any, any>) => (req: any, res: any, next: any) => {
