@@ -456,7 +456,7 @@ export default function FloorBuilder({ onSaveFloor, existingFloor }: FloorBuilde
         <div 
           ref={canvasRef}
           className="relative border border-gray-300 rounded-md flex-1 overflow-auto bg-white"
-          style={{ height: '500px' }}
+          style={{ height: '60vh', minHeight: '500px' }}
         >
           <div 
             className="relative"
@@ -681,9 +681,9 @@ export default function FloorBuilder({ onSaveFloor, existingFloor }: FloorBuilde
 
       {/* Add Room Dialog */}
       <Dialog open={isAddingRoom} onOpenChange={setIsAddingRoom}>
-        <DialogContent>
+        <DialogContent className="bg-white border-gray-200 shadow-md">
           <DialogHeader>
-            <DialogTitle>Add New Room</DialogTitle>
+            <DialogTitle className="text-gray-900">Add New Room</DialogTitle>
           </DialogHeader>
           <div className="space-y-4 py-2">
             <p className="text-sm text-gray-500">
@@ -691,7 +691,7 @@ export default function FloorBuilder({ onSaveFloor, existingFloor }: FloorBuilde
             </p>
           </div>
           <DialogFooter>
-            <Button variant="outline" onClick={() => setIsAddingRoom(false)}>Cancel</Button>
+            <Button variant="outline" onClick={() => setIsAddingRoom(false)} className="text-gray-800 border-gray-300">Cancel</Button>
             <Button 
               onClick={addRoom}
               className="bg-[#a3b68a] hover:bg-[#8a9c70] text-white"
@@ -704,9 +704,9 @@ export default function FloorBuilder({ onSaveFloor, existingFloor }: FloorBuilde
 
       {/* Add Bed Dialog */}
       <Dialog open={isAddingBed} onOpenChange={setIsAddingBed}>
-        <DialogContent>
+        <DialogContent className="bg-white border-gray-200 shadow-md">
           <DialogHeader>
-            <DialogTitle>Add New Bed</DialogTitle>
+            <DialogTitle className="text-gray-900">Add New Bed</DialogTitle>
           </DialogHeader>
           <div className="space-y-4 py-2">
             <p className="text-sm text-gray-500">
@@ -714,7 +714,7 @@ export default function FloorBuilder({ onSaveFloor, existingFloor }: FloorBuilde
             </p>
           </div>
           <DialogFooter>
-            <Button variant="outline" onClick={() => setIsAddingBed(false)}>Cancel</Button>
+            <Button variant="outline" onClick={() => setIsAddingBed(false)} className="text-gray-800 border-gray-300">Cancel</Button>
             <Button 
               onClick={addBed}
               className="bg-[#a3b68a] hover:bg-[#8a9c70] text-white"

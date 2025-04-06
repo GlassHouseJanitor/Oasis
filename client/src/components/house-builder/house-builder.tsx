@@ -670,7 +670,7 @@ export default function HouseBuilder() {
         setIsAddingFloor(open);
         if (!open) setEditingFloor(null);
       }}>
-        <DialogContent className="max-w-4xl bg-white border-gray-200 shadow-md">
+        <DialogContent className="max-w-5xl w-[95vw] max-h-[90vh] overflow-y-auto bg-white border-gray-200 shadow-md">
           <DialogHeader>
             <DialogTitle className="text-gray-900">Add New Floor</DialogTitle>
             <DialogDescription className="text-gray-600">
