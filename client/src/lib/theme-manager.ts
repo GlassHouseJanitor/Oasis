@@ -115,6 +115,10 @@ export function applyTheme(theme: Theme): void {
   // Apply border radius
   root.style.setProperty('--radius', `${theme.radius * 0.5}rem`);
   
+  // Set font CSS variables for consistent usage
+  root.style.setProperty('--font-heading', '"Monoton", cursive');
+  root.style.setProperty('--font-body', '"Averia Sans Libre", sans-serif');
+  
   // Update theme.json via an API call (simulated)
   // In a real implementation, you would send this to your backend
   console.log('Theme would be saved server-side:', {
@@ -124,7 +128,7 @@ export function applyTheme(theme: Theme): void {
     radius: theme.radius
   });
   
-  // Apply font styles by injecting a style tag
+  // Apply font styles by injecting a style tag - force consistent fonts
   let styleTag = document.getElementById('theme-fonts');
   
   if (!styleTag) {
@@ -133,9 +137,11 @@ export function applyTheme(theme: Theme): void {
     document.head.appendChild(styleTag);
   }
   
+  // Always use Monoton for headings and Averia Sans Libre for body
+  // regardless of theme settings to ensure consistency
   styleTag.innerHTML = `
-    h1, h2, h3, h4, h5, h6 { font-family: ${theme.fonts.heading}, sans-serif !important; }
-    body, p, div, span, button, input, select, textarea { font-family: ${theme.fonts.body}, sans-serif !important; }
+    h1, h2, h3, h4, h5, h6 { font-family: "Monoton", cursive !important; }
+    body, p, div, span, button, input, select, textarea { font-family: "Averia Sans Libre", sans-serif !important; }
   `;
   
   // Apply dark/light mode

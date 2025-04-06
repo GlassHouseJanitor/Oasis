@@ -3,8 +3,30 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Open+Sans:wght@400;600&family=Monoton&family=Averia+Sans+Libre:wght@300;400;700&display=swap" rel="stylesheet">
+    <!-- Preload critical fonts to improve performance -->
+    <link rel="preload" href="https://fonts.gstatic.com/s/monoton/v15/5h1aiZUrOngCibe4TkHLQka4BU4.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="https://fonts.gstatic.com/s/averiasanslibre/v18/ga6XaxZG_G5OvCf_rt7FH3B6BHLMEdVOEoI.woff2" as="font" type="font/woff2" crossorigin>
+    <!-- Load all required fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Monoton&family=Averia+Sans+Libre:wght@300;400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
     <title>Oasis Homes Management</title>
+    <style>
+      /* Force font loading in case other methods fail */
+      @font-face {
+        font-family: 'Monoton';
+        font-style: normal;
+        font-weight: 400;
+        font-display: swap;
+        src: url('https://fonts.gstatic.com/s/monoton/v15/5h1aiZUrOngCibe4TkHLQka4BU4.woff2') format('woff2');
+      }
+      @font-face {
+        font-family: 'Averia Sans Libre';
+        font-style: normal;
+        font-weight: 400;
+        font-display: swap;
+        src: url('https://fonts.gstatic.com/s/averiasanslibre/v18/ga6XaxZG_G5OvCf_rt7FH3B6BHLMEdVOEoI.woff2') format('woff2');
+      }
+    </style>
   </head>
   <body>
     <div id="root"></div>
