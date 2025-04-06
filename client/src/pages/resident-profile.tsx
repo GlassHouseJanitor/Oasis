@@ -222,7 +222,8 @@ export default function ResidentProfile() {
                     <AvatarImage src={resident.photoUrl || ''} />
                   )}
                   <AvatarFallback className="text-2xl">
-                    {resident.firstName[0]}{resident.lastName[0]}
+                    {resident.firstName ? resident.firstName[0] : ''}
+                    {resident.lastName ? resident.lastName[0] : ''}
                   </AvatarFallback>
                 </Avatar>
                 <div className="mt-4">
