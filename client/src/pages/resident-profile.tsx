@@ -93,8 +93,8 @@ export default function ResidentProfile() {
                 'Content-Type': 'application/json'
               },
               body: JSON.stringify({
-                photo: base64Data,
-                fileName: data.file.name,
+                base64Data: base64Data,
+                originalFilename: data.file.name,
               }),
             });
             resolve(result);
