@@ -116,7 +116,10 @@ export default function Residents() {
     try {
       if (selectedResident) {
         // Update existing resident
-        await apiRequest("PATCH", `/api/residents/${selectedResident.id}`, values);
+        await apiRequest("PATCH", `/api/residents/${selectedResident.id}`, {
+          ...values,
+          paymentStatus: selectedResident.paymentStatus
+        });
         toast({
           title: "Success",
           description: "Resident has been updated successfully",
