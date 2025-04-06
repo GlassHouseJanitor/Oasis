@@ -140,7 +140,10 @@ export function applyTheme(theme: Theme): void {
   // Always use Righteous for headings and Averia Sans Libre for body
   // regardless of theme settings to ensure consistency
   styleTag.innerHTML = `
-    h1, h2, h3, h4, h5, h6 { font-family: "Righteous", cursive !important; }
+    h1, h2, h3, h4, h5, h6 { 
+      font-family: "Righteous", cursive !important;
+      color: #333232 !important;
+    }
     body, p, div, span, button, input, select, textarea { font-family: "Averia Sans Libre", sans-serif !important; }
   `;
   

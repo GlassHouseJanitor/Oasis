@@ -44,6 +44,7 @@
 /* Apply fonts globally */
 h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-heading) !important;
+  color: #333232 !important;
 }
 
 body, p, div, span, button, input, select, textarea {
