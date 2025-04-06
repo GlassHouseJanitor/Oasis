@@ -2,6 +2,7 @@ import { db } from '../db';
 import { fileService } from './file-service';
 import { 
   files, 
+  residents,
   residentDocuments,
   type File,
   type InsertResidentDocument
@@ -22,12 +23,24 @@ export class ResidentService {
         residentId
       );
       
-      // Update the resident's photoUrl
+      // Create a proper URL for the photo
+      const photoUrl = `/api/files/${photo.filename}`;
+      
+      // Update the resident's photoUrl in the residents table
+      await db.update(residents)
+        .set({ photoUrl, updatedAt: new Date() })
+        .where(eq(residents.id, residentId));
+      
+      // Ensure the file is associated with the resident
       await db.update(files)
         .set({ residentId })
         .where(eq(files.id, photo.id));
       
-      return photo;
+      // Return the updated photo with URL
+      return {
+        ...photo,
+        url: photoUrl
+      };
     } catch (error) {
       console.error('Error saving resident photo:', error);
       throw new Error('Failed to save resident photo');

@@ -222,14 +222,15 @@ export default function ResidentProfile() {
               <div className="mb-6 relative">
                 <Avatar className="w-32 h-32">
                   {photoPreview ? (
-                    <AvatarImage src={photoPreview} />
+                    <AvatarImage src={photoPreview} alt={`${resident.firstName} ${resident.lastName}`} />
+                  ) : resident.photoUrl ? (
+                    <AvatarImage src={resident.photoUrl} alt={`${resident.firstName} ${resident.lastName}`} />
                   ) : (
-                    <AvatarImage src={resident.photoUrl || ''} />
+                    <AvatarFallback className="text-2xl">
+                      {resident.firstName ? resident.firstName[0] : ''}
+                      {resident.lastName ? resident.lastName[0] : ''}
+                    </AvatarFallback>
                   )}
-                  <AvatarFallback className="text-2xl">
-                    {resident.firstName ? resident.firstName[0] : ''}
-                    {resident.lastName ? resident.lastName[0] : ''}
-                  </AvatarFallback>
                 </Avatar>
                 <div className="mt-4">
                   <input

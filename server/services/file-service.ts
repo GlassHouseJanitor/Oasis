@@ -42,14 +42,18 @@ export class FileService {
       const relativePath = path.relative(process.cwd(), filePath);
       fs.writeFileSync(filePath, Buffer.from(base64FileData, 'base64'));
       
+      // Generate URL for file access
+      const fileUrl = `/api/files/${uniqueFilename}`;
+      
       // Save file metadata to database
       const newFile: InsertFile = {
         filename: uniqueFilename,
         originalName,
         path: relativePath,
+        url: fileUrl,
         mimeType,
         fileType,
-        fileSize: Buffer.from(base64FileData, 'base64').length,
+        size: Buffer.from(base64FileData, 'base64').length,
         residentId: residentId || null,
         uploadedAt: new Date()
       };
