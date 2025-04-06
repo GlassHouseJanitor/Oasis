@@ -15,7 +15,7 @@ export default function Header({ toggleSidebar }: HeaderProps) {
         >
           <Menu className="h-6 w-6" />
         </button>
-        <h1 className="text-2xl font-bold font-montserrat text-[#264653]">Oasis Homes Management</h1>
+        <h1 className="text-2xl font-bold font-montserrat text-[#333232]">Homestead</h1>
       </div>
       
       <div className="flex items-center space-x-4">

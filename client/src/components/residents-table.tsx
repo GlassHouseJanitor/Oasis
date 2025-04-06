@@ -53,7 +53,7 @@ export default function ResidentsTable({
       case 'partial':
         return <Badge className="bg-[#ffd966] text-yellow-800 hover:bg-yellow-100">Partial</Badge>;
       case 'overdue':
-        return <Badge className="bg-red-100 text-red-800 hover:bg-red-800">Overdue</Badge>;
+        return <Badge className="bg-[#b70b08] text-red-1000 hover:bg-red-800">Overdue</Badge>;
       default:
         return <Badge className="bg-gray-100 text-gray-800 hover:bg-gray-100">Unpaid</Badge>;
     }

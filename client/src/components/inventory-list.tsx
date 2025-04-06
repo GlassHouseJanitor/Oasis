@@ -124,7 +124,7 @@ export default function InventoryList({ onOrderSupplies }: InventoryListProps) {
       minimumQuantity: 5,
       amazonUrl: "",
       notes: "",
-      houseId: houses?.[0]?.id || 1,
+      houseId: houses && houses.length > 0 ? houses[0].id : 1,
     });
     setIsDialogOpen(true);
   };
