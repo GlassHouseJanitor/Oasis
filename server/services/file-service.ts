@@ -1,8 +1,8 @@
-import { Storage } from '@replit/object-storage';
+import { Client } from '@replit/object-storage';
 import { files, type InsertFile } from '@shared/schema';
 import { db } from '../db';
 
-const storage = new Storage();
+const storage = new Client();
 
 export class FileService {
   async saveBase64File(
