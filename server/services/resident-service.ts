@@ -15,7 +15,7 @@ export class ResidentService {
    */
   async saveResidentPhoto(residentId: number, base64Data: string, originalFilename: string): Promise<File> {
     try {
-      // Save the file
+      // Save the file directly to database
       const photo = await fileService.saveBase64File(
         base64Data,
         originalFilename,
@@ -23,7 +23,7 @@ export class ResidentService {
         residentId
       );
       
-      // Create a proper URL for the photo
+      // Create a proper URL reference for the photo
       const photoUrl = `/api/files/${photo.filename}`;
       
       // Update the resident's photoUrl in the residents table
@@ -36,11 +36,14 @@ export class ResidentService {
         .set({ residentId })
         .where(eq(files.id, photo.id));
       
-      // Return the updated photo with URL
+      // Don't return the binary data to reduce payload size
+      const { binaryData, ...photoWithoutBinary } = photo;
+      
       return {
-        ...photo,
+        ...photoWithoutBinary,
+        // Add synthetic URL property for client compatibility
         url: photoUrl
-      };
+      } as File;
     } catch (error) {
       console.error('Error saving resident photo:', error);
       throw new Error('Failed to save resident photo');
@@ -57,17 +60,39 @@ export class ResidentService {
         .from(residentDocuments)
         .where(eq(residentDocuments.residentId, residentId));
       
-      // Enrich with file data
+      // Enrich with file data (excluding binary data)
       const result = [];
       for (const doc of docRecords) {
-        const [file] = await db.select()
-          .from(files)
-          .where(eq(files.id, doc.fileId));
+        // Select all fields except binary data
+        const [file] = await db.select({
+          id: files.id,
+          filename: files.filename,
+          originalName: files.originalName,
+          mimeType: files.mimeType,
+          size: files.size,
+          fileType: files.fileType,
+          residentId: files.residentId,
+          invoiceId: files.invoiceId,
+          paymentId: files.paymentId,
+          uploadedAt: files.uploadedAt,
+          status: files.status,
+          metadata: files.metadata,
+          createdAt: files.createdAt,
+          updatedAt: files.updatedAt
+        })
+        .from(files)
+        .where(eq(files.id, doc.fileId));
         
         if (file) {
+          // Add URL reference for client
+          const fileUrl = `/api/files/${file.filename}`;
+          
           result.push({
             ...doc,
-            file
+            file: {
+              ...file,
+              url: fileUrl
+            }
           });
         }
       }
@@ -92,7 +117,7 @@ export class ResidentService {
     expiryDate?: Date
   ): Promise<any> {
     try {
-      // Save the file first
+      // Save the file directly to database
       const file = await fileService.saveBase64File(
         base64Data,
         originalFilename,
@@ -115,9 +140,18 @@ export class ResidentService {
         })
         .returning();
       
+      // Don't include binary data in response
+      const { binaryData, ...fileWithoutBinary } = file;
+      
+      // Create a URL reference for the document
+      const fileUrl = `/api/files/${file.filename}`;
+      
       return {
         ...document,
-        file
+        file: {
+          ...fileWithoutBinary,
+          url: fileUrl
+        }
       };
     } catch (error) {
       console.error('Error adding resident document:', error);

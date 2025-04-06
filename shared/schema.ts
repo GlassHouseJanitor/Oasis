@@ -98,8 +98,7 @@ export const files = pgTable('files', {
   originalName: text('original_name').notNull(),
   mimeType: text('mime_type').notNull(),
   size: integer('size').notNull(), // in bytes
-  path: text('path').notNull(), // storage path
-  url: text('url'), // URL for access if different from path
+  binaryData: text('binary_data').notNull(), // Store the actual file data in the database as base64 encoded text
   fileType: text('file_type', { enum: ['photo', 'document', 'invoice', 'medical', 'legal', 'other'] }).notNull(),
   residentId: integer('resident_id').references(() => residents.id),
   invoiceId: integer('invoice_id').references(() => invoices.id),

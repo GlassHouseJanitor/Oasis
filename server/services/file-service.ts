@@ -7,7 +7,7 @@ import * as crypto from 'crypto';
 
 export class FileService {
   /**
-   * Save a base64 encoded file to the file system and database
+   * Save a base64 encoded file directly to the database
    */
   async saveBase64File(
     base64Data: string,
@@ -21,39 +21,21 @@ export class FileService {
       const mimeType = mimeTypeMatch ? mimeTypeMatch[1] : '';
       const base64FileData = base64Data.replace(/^data:([a-zA-Z0-9]+\/[a-zA-Z0-9-.+]+);base64,/, '');
       
-      // Generate a unique filename
+      // Generate a unique filename (for reference only, file is stored in DB)
       const extension = this.getFileExtensionFromMimeType(mimeType, originalName);
       const uniqueFilename = `${crypto.randomBytes(16).toString('hex')}.${extension}`;
       
-      // Create uploads directory if it doesn't exist
-      const uploadsDir = path.join(process.cwd(), 'uploads');
-      if (!fs.existsSync(uploadsDir)) {
-        fs.mkdirSync(uploadsDir, { recursive: true });
-      }
+      // Convert base64 to binary Buffer
+      const binaryData = Buffer.from(base64FileData, 'base64');
       
-      // Create type-specific subdirectory
-      const typeDir = path.join(uploadsDir, fileType);
-      if (!fs.existsSync(typeDir)) {
-        fs.mkdirSync(typeDir, { recursive: true });
-      }
-      
-      // Save file to disk
-      const filePath = path.join(typeDir, uniqueFilename);
-      const relativePath = path.relative(process.cwd(), filePath);
-      fs.writeFileSync(filePath, Buffer.from(base64FileData, 'base64'));
-      
-      // Generate URL for file access
-      const fileUrl = `/api/files/${uniqueFilename}`;
-      
-      // Save file metadata to database
+      // Save file metadata and binary data to database
       const newFile: InsertFile = {
         filename: uniqueFilename,
         originalName,
-        path: relativePath,
-        url: fileUrl,
         mimeType,
         fileType,
-        size: Buffer.from(base64FileData, 'base64').length,
+        size: binaryData.length,
+        binaryData, // Store the actual file data in the database
         residentId: residentId || null,
         uploadedAt: new Date()
       };
@@ -122,11 +104,28 @@ export class FileService {
   }
   
   /**
-   * Get files by resident ID
+   * Get files by resident ID (exclude binary data to reduce payload size)
    */
-  async getFilesByResidentId(residentId: number): Promise<File[]> {
+  async getFilesByResidentId(residentId: number): Promise<Omit<File, 'binaryData'>[]> {
     try {
-      return await db.select().from(files).where(eq(files.residentId, residentId));
+      const result = await db.select({
+        id: files.id,
+        filename: files.filename,
+        originalName: files.originalName,
+        mimeType: files.mimeType,
+        size: files.size,
+        fileType: files.fileType,
+        residentId: files.residentId,
+        invoiceId: files.invoiceId,
+        paymentId: files.paymentId,
+        uploadedAt: files.uploadedAt,
+        status: files.status,
+        metadata: files.metadata,
+        createdAt: files.createdAt,
+        updatedAt: files.updatedAt
+      }).from(files).where(eq(files.residentId, residentId));
+      
+      return result;
     } catch (error) {
       console.error('Error retrieving resident files:', error);
       return [];
@@ -134,20 +133,15 @@ export class FileService {
   }
   
   /**
-   * Delete file by ID (from filesystem and database)
+   * Delete file by ID from database
    */
   async deleteFile(id: number): Promise<boolean> {
     try {
-      // Get file info
+      // Get file info to verify it exists
       const [file] = await db.select().from(files).where(eq(files.id, id));
       
       if (!file) {
         return false;
-      }
-      
-      // Delete from filesystem if it exists
-      if (file.path && fs.existsSync(file.path)) {
-        fs.unlinkSync(file.path);
       }
       
       // Delete from database

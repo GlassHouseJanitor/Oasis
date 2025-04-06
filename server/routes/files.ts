@@ -23,29 +23,26 @@ export const registerFileRoutes = (app: Express) => {
           return res.status(404).json({ error: 'File not found' });
         }
         
-        // Check if file exists on disk
-        const filePath = path.join(process.cwd(), file.path);
-        if (!fs.existsSync(filePath)) {
-          return res.status(404).json({ error: 'File not found on disk' });
-        }
-        
         // Determine content type
         const contentType = file.mimeType || 'application/octet-stream';
         
-        // Set content type and send file
+        // Set content type and serve binary data directly from database
         res.setHeader('Content-Type', contentType);
         res.setHeader('Content-Disposition', `inline; filename="${file.originalName}"`);
-        return res.sendFile(filePath);
+        // Return the binary data stored in database
+        return res.send(file.binaryData);
       }
       
-      // Handle numeric ID access
+      // Handle numeric ID access (for metadata queries)
       const file = await fileService.getFileById(id);
       
       if (!file) {
         return res.status(404).json({ error: 'File not found' });
       }
       
-      res.json(file);
+      // Send metadata only (excluding binary data) for API queries
+      const { binaryData, ...metadata } = file;
+      res.json(metadata);
     } catch (error) {
       console.error('Error retrieving file:', error);
       res.status(500).json({ error: 'Internal server error' });
