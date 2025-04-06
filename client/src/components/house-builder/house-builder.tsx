@@ -332,43 +332,13 @@ export default function HouseBuilder() {
     });
   };
   
-  // Move a floor up in the stack
+  // Move a floor up in the UI (which is actually moving it down in the 3D view)
   const moveFloorUp = (houseId: string, floorId: string) => {
     setHouses(prevHouses => {
       return prevHouses.map(house => {
         if (house.id === houseId) {
           const floorIndex = house.floors.findIndex(f => f.id === floorId);
-          if (floorIndex <= 0) return house; // Already at the top
-          
-          const updatedFloors = [...house.floors];
-          const temp = updatedFloors[floorIndex];
-          updatedFloors[floorIndex] = updatedFloors[floorIndex - 1];
-          updatedFloors[floorIndex - 1] = temp;
-          
-          // Update current house if it's the one we're modifying
-          if (currentHouse?.id === houseId) {
-            setCurrentHouse({ ...house, floors: updatedFloors });
-          }
-          
-          return { ...house, floors: updatedFloors };
-        }
-        return house;
-      });
-    });
-    
-    toast({
-      title: "Floor Moved",
-      description: "The floor has been moved up"
-    });
-  };
-  
-  // Move a floor down in the stack
-  const moveFloorDown = (houseId: string, floorId: string) => {
-    setHouses(prevHouses => {
-      return prevHouses.map(house => {
-        if (house.id === houseId) {
-          const floorIndex = house.floors.findIndex(f => f.id === floorId);
-          if (floorIndex === -1 || floorIndex === house.floors.length - 1) return house; // Already at the bottom
+          if (floorIndex >= house.floors.length - 1) return house; // Already at the bottom in the real stack
           
           const updatedFloors = [...house.floors];
           const temp = updatedFloors[floorIndex];
@@ -388,7 +358,37 @@ export default function HouseBuilder() {
     
     toast({
       title: "Floor Moved",
-      description: "The floor has been moved down"
+      description: "The floor has been moved up in the building"
+    });
+  };
+  
+  // Move a floor down in the UI (which is actually moving it up in the 3D view)
+  const moveFloorDown = (houseId: string, floorId: string) => {
+    setHouses(prevHouses => {
+      return prevHouses.map(house => {
+        if (house.id === houseId) {
+          const floorIndex = house.floors.findIndex(f => f.id === floorId);
+          if (floorIndex <= 0) return house; // Already at the top in the real stack
+          
+          const updatedFloors = [...house.floors];
+          const temp = updatedFloors[floorIndex];
+          updatedFloors[floorIndex] = updatedFloors[floorIndex - 1];
+          updatedFloors[floorIndex - 1] = temp;
+          
+          // Update current house if it's the one we're modifying
+          if (currentHouse?.id === houseId) {
+            setCurrentHouse({ ...house, floors: updatedFloors });
+          }
+          
+          return { ...house, floors: updatedFloors };
+        }
+        return house;
+      });
+    });
+    
+    toast({
+      title: "Floor Moved",
+      description: "The floor has been moved down in the building"
     });
   };
   
@@ -399,14 +399,19 @@ export default function HouseBuilder() {
     setHouses(prevHouses => {
       return prevHouses.map(house => {
         if (house.id === currentHouse.id) {
+          // Since we display floors in reverse order, we need to adjust the indices
+          const actualLength = house.floors.length;
+          const actualDragIndex = actualLength - 1 - dragIndex;
+          const actualHoverIndex = actualLength - 1 - hoverIndex;
+          
           const updatedFloors = [...house.floors];
-          const draggedFloor = updatedFloors[dragIndex];
+          const draggedFloor = updatedFloors[actualDragIndex];
           
           // Remove the dragged floor
-          updatedFloors.splice(dragIndex, 1);
+          updatedFloors.splice(actualDragIndex, 1);
           
           // Insert it at the new position
-          updatedFloors.splice(hoverIndex, 0, draggedFloor);
+          updatedFloors.splice(actualHoverIndex, 0, draggedFloor);
           
           // Update current house
           const updatedHouse = { ...house, floors: updatedFloors };
@@ -494,7 +499,7 @@ export default function HouseBuilder() {
                         <h3 className="text-lg font-semibold">Floors</h3>
                         <DndProvider backend={HTML5Backend}>
                           <div className="grid grid-cols-1 gap-4">
-                            {currentHouse.floors.map((floor, index) => (
+                            {[...currentHouse.floors].reverse().map((floor, index) => (
                               <DraggableFloorCard
                                 key={floor.id}
                                 floor={floor}
