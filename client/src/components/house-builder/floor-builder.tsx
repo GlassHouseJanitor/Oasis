@@ -419,7 +419,7 @@ export default function FloorBuilder({ onSaveFloor, existingFloor }: FloorBuilde
   };
 
   return (
-    <div className="flex flex-col h-full">
+    <div id="floor-builder" className="flex flex-col h-full">
       <div className="flex justify-between items-center mb-4">
         <div className="space-y-2">
           <div className="flex items-center space-x-2">
@@ -441,16 +441,16 @@ export default function FloorBuilder({ onSaveFloor, existingFloor }: FloorBuilde
           >
             <Plus className="h-4 w-4 mr-1" /> Add Room
           </Button>
-          <Button 
-            variant="default" 
-            onClick={saveFloor}
-            className="bg-[#a3b68a] hover:bg-[#8a9c70] text-white"
-          >
-            <Save className="h-4 w-4 mr-1" /> Save Floor
-          </Button>
         </div>
       </div>
 
+      {/* Hidden button for external triggering */}
+      <button 
+        data-save-floor 
+        onClick={saveFloor} 
+        className="hidden"
+      />
+      
       <div className="flex flex-1">
         {/* Floor Canvas */}
         <div 

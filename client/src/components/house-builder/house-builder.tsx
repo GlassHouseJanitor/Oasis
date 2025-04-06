@@ -670,17 +670,37 @@ export default function HouseBuilder() {
         setIsAddingFloor(open);
         if (!open) setEditingFloor(null);
       }}>
-        <DialogContent className="max-w-5xl w-[95vw] max-h-[90vh] overflow-y-auto bg-white border-gray-200 shadow-md">
-          <DialogHeader>
+        <DialogContent className="max-w-5xl w-[95vw] h-[95vh] overflow-y-auto bg-white border-gray-200 shadow-md p-4">
+          <DialogHeader className="pb-2">
             <DialogTitle className="text-gray-900">Add New Floor</DialogTitle>
             <DialogDescription className="text-gray-600">
               Design your floor plan. Add rooms and beds as needed.
             </DialogDescription>
           </DialogHeader>
           
-          <div className="py-4">
+          <div className="py-2 h-[calc(100%-2rem)]">
             <FloorBuilder onSaveFloor={saveFloor} />
           </div>
+
+          <DialogFooter className="mt-4 pt-2 border-t">
+            <Button onClick={() => setIsAddingFloor(false)} variant="outline" className="text-gray-800 border-gray-300">
+              Cancel
+            </Button>
+            <Button onClick={() => {
+              // Get the current floor instance from FloorBuilder and save it
+              const floorBuilder = document.getElementById('floor-builder');
+              if (floorBuilder) {
+                // This uses the Save Floor button in FloorBuilder component
+                const saveButton = floorBuilder.querySelector('button[data-save-floor]') as HTMLButtonElement;
+                if (saveButton) {
+                  saveButton.click();
+                  setIsAddingFloor(false);
+                }
+              }
+            }} className="bg-[#a3b68a] hover:bg-[#8a9c70] text-white">
+              Save Floor
+            </Button>
+          </DialogFooter>
         </DialogContent>
       </Dialog>
       
