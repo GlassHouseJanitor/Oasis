@@ -69,8 +69,8 @@ export default function Residents() {
   };
   
   const handleViewResident = (resident: ResidentWithBed) => {
-    setSelectedResident(resident);
-    setIsViewResidentOpen(true);
+    // Navigate to resident profile page instead of using dialog
+    window.location.href = `/residents/${resident.id}`;
   };
   
   const handleEditResident = (resident: ResidentWithBed) => {
