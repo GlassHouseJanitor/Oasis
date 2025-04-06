@@ -154,7 +154,10 @@ export default function ResidentProfile() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    updateMutation.mutate(formData);
+    updateMutation.mutate({
+      ...formData,
+      paymentStatus: resident.paymentStatus // Preserve existing payment status
+    });
   };
 
   if (isLoading) {
