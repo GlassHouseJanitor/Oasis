@@ -459,38 +459,40 @@ export default function HouseBuilder() {
       
       {/* Create House Dialog */}
       <Dialog open={isAddingHouse} onOpenChange={setIsAddingHouse}>
-        <DialogContent>
+        <DialogContent className="bg-white border-gray-200 shadow-md">
           <DialogHeader>
-            <DialogTitle>Create New House</DialogTitle>
-            <DialogDescription>
+            <DialogTitle className="text-gray-900">Create New House</DialogTitle>
+            <DialogDescription className="text-gray-600">
               Add the details for your new house.
             </DialogDescription>
           </DialogHeader>
           
           <div className="space-y-4 py-2">
             <div className="space-y-2">
-              <Label htmlFor="house-name">House Name</Label>
+              <Label htmlFor="house-name" className="text-gray-800">House Name</Label>
               <Input
                 id="house-name"
                 value={houseName}
                 onChange={(e) => setHouseName(e.target.value)}
                 placeholder="White House"
+                className="border-gray-300 text-gray-800"
               />
             </div>
             
             <div className="space-y-2">
-              <Label htmlFor="house-address">Address (Optional)</Label>
+              <Label htmlFor="house-address" className="text-gray-800">Address (Optional)</Label>
               <Input
                 id="house-address"
                 value={houseAddress}
                 onChange={(e) => setHouseAddress(e.target.value)}
                 placeholder="123 Recovery Road"
+                className="border-gray-300 text-gray-800"
               />
             </div>
           </div>
           
           <DialogFooter>
-            <Button variant="outline" onClick={() => setIsAddingHouse(false)}>Cancel</Button>
+            <Button variant="outline" onClick={() => setIsAddingHouse(false)} className="text-gray-800 border-gray-300">Cancel</Button>
             <Button 
               onClick={createHouse}
               className="bg-[#a3b68a] hover:bg-[#8a9c70] text-white"
@@ -506,10 +508,10 @@ export default function HouseBuilder() {
         setIsAddingFloor(open);
         if (!open) setEditingFloor(null);
       }}>
-        <DialogContent className="max-w-4xl">
+        <DialogContent className="max-w-4xl bg-white border-gray-200 shadow-md">
           <DialogHeader>
-            <DialogTitle>Add New Floor</DialogTitle>
-            <DialogDescription>
+            <DialogTitle className="text-gray-900">Add New Floor</DialogTitle>
+            <DialogDescription className="text-gray-600">
               Design your floor plan. Add rooms and beds as needed.
             </DialogDescription>
           </DialogHeader>
@@ -524,9 +526,9 @@ export default function HouseBuilder() {
       <Dialog open={!!viewingHouse} onOpenChange={(open) => {
         if (!open) setViewingHouse(null);
       }}>
-        <DialogContent className="max-w-5xl max-h-[90vh] overflow-y-auto">
+        <DialogContent className="max-w-5xl max-h-[90vh] overflow-y-auto bg-white border-gray-200 shadow-md">
           <DialogHeader>
-            <DialogTitle>{viewingHouse?.name} - 3D Model</DialogTitle>
+            <DialogTitle className="text-gray-900">{viewingHouse?.name} - 3D Model</DialogTitle>
           </DialogHeader>
           
           <div className="py-4">
@@ -536,7 +538,7 @@ export default function HouseBuilder() {
           </div>
           
           <DialogFooter>
-            <Button onClick={() => setViewingHouse(null)}>Close</Button>
+            <Button onClick={() => setViewingHouse(null)} className="bg-[#333232] hover:bg-[#444444] text-white">Close</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
